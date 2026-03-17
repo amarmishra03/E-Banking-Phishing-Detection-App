@@ -38,6 +38,9 @@ dependencies:
   path_provider: ^2.0.11
   flutter_local_notifications: ^17.0.0
   permission_handler: ^11.3.0
+  fl_chart: ^0.68.0
+  mobile_scanner: ^5.0.0
+  app_links: ^6.3.2
 
 dev_dependencies:
   flutter_test:

@@ -13,6 +13,26 @@ class DatabaseService {
     return _db!;
   }
 
+  Future<Map<String, int>> getStats() async {
+
+    final db = await database;
+
+    final total = Sqflite.firstIntValue(
+        await db.rawQuery('SELECT COUNT(*) FROM logs')) ?? 0;
+
+    final phishing = Sqflite.firstIntValue(
+        await db.rawQuery(
+            "SELECT COUNT(*) FROM logs WHERE result LIKE '%Phishing%'")) ?? 0;
+
+    final safe = total - phishing;
+
+    return {
+      "total": total,
+      "phishing": phishing,
+      "safe": safe
+    };
+  }
+
   initDB() async {
 
     String path = join(await getDatabasesPath(), "phishing_logs.db");

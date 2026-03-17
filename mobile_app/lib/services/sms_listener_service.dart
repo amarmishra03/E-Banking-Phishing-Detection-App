@@ -2,6 +2,7 @@ import 'package:flutter/services.dart';
 import 'local_model_service.dart';
 import 'database_service.dart';
 import 'notification_service.dart';
+import '../utils/url_extractor.dart';
 
 class SmsListenerService {
 
@@ -20,12 +21,33 @@ class SmsListenerService {
 
         String sms = call.arguments;
 
+        List<String> urls = UrlExtractor.extractUrls(sms);
+
         double prob = model.predict(sms);
+
+        if (urls.isNotEmpty) {
+
+          for (var url in urls) {
+
+            double urlProb = model.predict(url);
+
+            if (urlProb > prob) {
+              prob = urlProb;
+            }
+
+          }
+
+        }
 
         if (prob > 0.5) {
 
-          await NotificationService.showAlert(
-              "Phishing SMS detected: $sms");
+          String alertMessage = "Phishing SMS detected: $sms";
+
+          if (urls.isNotEmpty) {
+            alertMessage += "\nPossible malicious link found";
+          }
+
+          await NotificationService.showAlert(alertMessage);
 
           await db.insertLog(sms, "Phishing SMS");
 

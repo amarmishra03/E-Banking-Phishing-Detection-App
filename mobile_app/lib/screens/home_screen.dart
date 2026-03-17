@@ -4,6 +4,8 @@ import 'package:permission_handler/permission_handler.dart';
 import 'url_scanner.dart';
 import 'sms_scanner.dart';
 import 'history_screen.dart';
+import 'dashboard_screen.dart';
+import 'qr_scanner.dart';
 
 class HomeScreen extends StatefulWidget {
   @override
@@ -86,6 +88,26 @@ class _HomeScreenState extends State<HomeScreen> {
                 Navigator.push(
                   context,
                   MaterialPageRoute(builder: (_) => HistoryScreen())
+                );
+              },
+            ),
+
+            ElevatedButton(
+              child: Text("Threat Dashboard"),
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (_) => DashboardScreen())
+                );
+              },
+            ),
+
+            ElevatedButton(
+              child: Text("Scan QR Code"),
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (_) => QRScanner())
                 );
               },
             ),

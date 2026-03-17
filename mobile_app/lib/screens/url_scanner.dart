@@ -26,19 +26,19 @@ class _UrlScannerState extends State<UrlScanner> {
 
     double prob = model.predict(controller.text);
 
-    if (prob > 0.5) {
+    double risk = prob * 100;
 
-      result = "⚠ Phishing URL Detected";
+    String status;
 
-      NotificationService.showAlert(
-        "Phishing URL detected!"
-      );
-
+    if (prob > 0.8) {
+      status = "⚠ HIGH RISK";
+    } else if (prob > 0.5) {
+      status = "⚠ SUSPICIOUS";
     } else {
+      status = "✅ SAFE";
+    }
 
-    result = "✅ Safe URL";
-
-  }
+    result = "$status\nRisk Score: ${risk.toStringAsFixed(2)}%";
 
     await db.insertLog(controller.text, result);
 
@@ -75,7 +75,13 @@ class _UrlScannerState extends State<UrlScanner> {
 
             SizedBox(height: 20),
 
-            Text(result, style: TextStyle(fontSize: 18)),
+            Text(
+              result,
+              style: TextStyle(
+                fontSize: 20,
+                fontWeight: FontWeight.bold
+              ),
+            ),
 
           ],
         ),
