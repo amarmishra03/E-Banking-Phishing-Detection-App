@@ -7,6 +7,7 @@ import 'dart:ui';
 import 'url_scanner.dart';
 import 'sms_scanner.dart';
 import 'history_screen.dart';
+import 'qr_scanner.dart';
 
 class HomeScreen extends StatefulWidget {
   @override
@@ -151,6 +152,11 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
                               title: "Check SMS",
                               icon: Icons.chat_bubble_outline_rounded,
                               onTap: () => Navigator.push(context, _animatedRoute(SmsScanner())),
+                            ),
+                            PremiumActionCard(
+                              title: "Scan QR",
+                              icon: Icons.qr_code_scanner_rounded,
+                              onTap: () => Navigator.push(context, _animatedRoute(QRScanner())),
                             ),
                           ],
                         ),
